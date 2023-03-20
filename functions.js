@@ -125,13 +125,6 @@ const getLinkStatus = (urls) => Promise.all(urls.map((link) => axios.get(link.hr
       message: 'fail'
     };
   })));
-// const probando = [
-//   {
-//     href: 'https://raw.githubusercontent.com/programminghistorian/jekyll/gh-pages/es/lecciones/introduccion-a-bash.md',
-//     text: 'description',
-//     file: 'C:\\Users\\adria\\Desktop\\Laboratoria\\DEV001-md-links\\prueba\\ejemplo.md',
-//   },
-// ];
 
 // // verificar si el path existe
 // console.log("¿Existe la ruta? ", path1,": " ,pathExists(path1));
