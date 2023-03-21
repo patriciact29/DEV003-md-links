@@ -8,94 +8,86 @@ const path1 = process.argv[2];
 //C:/Users/Patricia/Documents/LABORATORIA/DEV003-md-links/PRUEBA/READMEPRUEBA.md
 //PRUEBA/READMEPRUEBA.md
 
-// verificar si el path existe
+// VERIFICAR SI EL PATH EXISTE
 const pathExists = (path1) => {
   return fs.existsSync(path1);
 }
 
-// verificar si es absoluta
+// VERIFICAR SI ES ABSOLUTA
 const pathIsAbsolute = (path1) => {
   return path.isAbsolute(path1);
 }
 
 
-//convertir la ruta en absoluto
+//CONVERTIMOS LA RUTA EN ABSOLUTA
 const turnPathAbsolute = (path1) => {
   return path.resolve(path1);
 }
 
-//Es archivo o directorio
-//Es directorio?
-// const isDirectory = (path1) => {
-//   const stats = fs.statSync(path1)
-//   return stats.isDirectory(path1)
-// }
+//ES DIRECTORIO?
+const isDirectory = (path1) => {
+  const stats = fs.statSync(path1)
+  return stats.isDirectory(path1)
+}
 
-//hay archivos dentro del directorio?
+//HAY ARCHIVOS DENTRO DEL DIRECTORIO?
 const readDirectory = (path1) => {
-  if (fs.readdirSync(path1).length>0){
+  if (fs.readdirSync(path1).length > 0) {
     return true
   } else {
     return false
   }
 }
+// LEER TODOS LOS DIRECTORIOS
 
-//Es archivo?
+//ES ARCHIVO?
 const isFile = (path1) => {
   const stats = fs.statSync(path1);
   return stats.isFile(path1)
 };
 
-//Existen archivos .md
+//EXISTEN ARCHIVOS .MD
 const existeMd = (path1) => {
- const extension = path.extname(path1)
+  const extension = path.extname(path1)
   return extension === '.md'
 }
+
 // //Leer el archivo
-// const readFiles = (path1) => new Promise((resolve, reject) => {
-//   fs.readFile(path1, 'utf-8', (error, data) =>{
-//     if(error){
-//       reject(new Error('Error'));
-//     }else
-//     resolve(data)
-//   })
-// })
+const readFiles = (path1) => new Promise((resolve, reject) => {
+  fs.readFile(path1, 'utf-8', (error, data) => {
+    if (error) {
+      reject(new Error('Error'));
+    } else
+      resolve(data)
+  })
+})
 
-// // extraer los links de .md
-// const getLinks = (path1, data) => {
-//   const links = data.match(/\[([^\]]+)\]\((http[s]?:\/\/[^\)]+)\)/g).map((link) => {
-//     const linkParts = link.match(/\[([^\]]+)\]\((http[s]?:\/\/[^\)]+)\)/);
-//     if(!links){
-//       console.log('no existen links');
-//     }else{
-//       console.log(links);
-//       // for (let i = 0; i < links.length; i++) {
-//       //   text: linkParts[1]
-//       //   href: linkParts[2],
-//       //   file: path1 /
-//       // }
-//     }
-//       });
-// }
-//leer y extraer links
-const readFileAndExtractLinks = (path1) => {
-fs.readFile(path1, 'utf-8', (error, data) =>{
-  if(error){
-    console.error('error');
-  }
-  const links = data.match(/\[([^\]]+)\]\((http[s]?:\/\/[^\)]+)\)/g).map((link) => {// Se busca coincidencia y se crea un arreglo
-  const linkParts = link.match(/\[([^\]]+)\]\((http[s]?:\/\/[^\)]+)\)/);
-    return {
-      text: linkParts[1],
-      href: linkParts[2],
-      file: path1
-      };
-    });
-    //return links
-    console.log("Existen los siguientes links", links );
-});
-}
+//Leer archivo y extraer links
+const readFileAndExtractLinks = (path1) => new Promise((resolve, reject) => {
+  fs.readFile(path1, 'utf-8', (error, data) => {
+    if (error) {
+      reject(error);
+    } else {
+      const regex = /\[([^\]]+)\]\((http[s]?:\/\/[^\)]+)\)/g;
+      const matchedLinks = data.match(regex);
+      //console.log((matchedLinks));
+      const links = matchedLinks.map(link => {
+        const linkParts = link.match(/\[([^\]]+)\]\((http[s]?:\/\/[^\)]+)\)/); // Se busca coincidencia y se crea un arreglo
+        return ({
+          text: linkParts[1],
+          href: linkParts[2],
+          file: path1
+        });
+      })
+      resolve(links)
+    }
+  })
+})
 
+// readFileAndExtractLinks(path1)
+// .then((links) => console.log(links)).catch((reject) => console.log(reject))
+
+// STATUS DE LOS LINKS
 const getLinkStatus = (urls) => Promise.all(urls.map((link) => axios.get(link.href)
   .then((respuesta) => {
     return {
@@ -106,55 +98,45 @@ const getLinkStatus = (urls) => Promise.all(urls.map((link) => axios.get(link.hr
       message: 'ok'
     };
   })
-  //console.log(respuesta);
   .catch((error) => { // error
-    let errorStatus;
-    if (error.respuesta) {
-      // La respuesta fue hecha y el servidor respondió con un código de estado
-      errorStatus = error.respuesta.status;
-    } else if (error.request) {
-      // La petición fue hecha pero no se recibió respuesta
-      errorStatus = 500;
-    }
-    // console.log('errorStatus', errorStatus);
+    if (error.respuesta) { // La respuesta fue hecha y el servidor respondió con un código de estado
     return {
       text: link.text,
       href: link.href,
       file: link.file,
-      status: respuesta.status,
+      status: error.respuesta.status,
       message: 'fail'
     };
+     }
   })));
-
-// // verificar si el path existe
-// console.log("¿Existe la ruta? ", path1,": " ,pathExists(path1));
-// // verificar si es absoluta
-// console.log(`¿La ruta ${path1} es absoluta? ${pathIsAbsolute(path1)}`);
-// //convertir la ruta en absoluto
-// console.log(`La ruta absoluta es ${path.resolve(path1)}`)
-// //Verificar si es un directorio
-// //console.log(`${path1} es un directorio?`, isDirectory(path1))
-// //Verificar si el directorio contiene archivos true/false
-// //console.log(`El directorio ${path1} contiene archivos? ${readDirectory(path1)}`)
-// //Es archivo
-// console.log(`${path1} es un archivo?`, isFile(path1))
-// //Verificar si hay archivos.md
-// console.log(`dentro de ${path1} contiene archivos.md? ${existeMd(path1)}`)
-// //leer el archivo
-// //console.log(readFiles(path1));
-// //Extraemos los links del archivo.md
-console.log( readFileAndExtractLinks(path1));
-// const probandolinks = readFileAndExtractLinks(path1);
-// console.log(typeof probandolinks);
-// getLinkStatus(probandolinks)
-//   .then((links) => {
-//     console.log(links);
+// const probando = [
+//   {
+//     text: 'Tomando decisiones en tu código — condicionales - MDN',
+//     href: 'https://developer.mozilla.org/es/docs/Learn/JavaScript/Building_blocks/conditionals',
+//     file: 'PRUEBA/READMEPRUEBA2.md'
+//   },
+// ];
+// getLinkStatus(probando)
+//   .then((probando) => {
+//     console.log(probando);
 //   })
 //   .catch((error) => {
 //     console.error(error);
 //   });
+// /*verificar si el path existe*/ console.log("¿Existe la ruta? ", path1,": " ,pathExists(path1));
+// /*verificar si es absoluta*/  console.log(`¿La ruta ${path1} es absoluta? ${pathIsAbsolute(path1)}`);
+// /*convertir la ruta en absoluto*/ console.log(`La ruta absoluta es ${path.resolve(path1)}`)
+// /*Es archivo? */ console.log(`${path1} es un archivo?`, isFile(path1))
+// /*Verificar si hay archivos.md */ console.log(`dentro de ${path1} contiene archivos.md? ${existeMd(path1)}`)
+// /*leer el archivo*/ console.log(readFiles(path1));
+// //Verificar si es un directorio
+// console.log(`${path1} es un directorio?`, isDirectory(path1))
+// //Verificar si el directorio contiene archivos true/false
+// console.log(`El directorio ${path1} contiene archivos? ${readDirectory(path1)}`)
+
+
 
 module.exports = {
-  pathExists, pathIsAbsolute, readFileAndExtractLinks, turnPathAbsolute, existeMd,isFile, getLinkStatus
+  pathExists, pathIsAbsolute, turnPathAbsolute, existeMd, isFile, readFileAndExtractLinks, getLinkStatus
   // ...
 };
