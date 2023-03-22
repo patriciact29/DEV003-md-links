@@ -3,7 +3,8 @@ const {
   turnPathAbsolute,
   readFileAndExtractLinks,
   existeMd,
-  getLinkStatus
+  getLinkStatus,
+  readAllFiles,
 } = require('./functions');
 
 const path = process.argv[2];
@@ -41,11 +42,10 @@ const mdLinks = (path, options) => new Promise((resolve, reject) => {
     reject(error);
   });
 });
-mdLinks(path)
-.then((resolve) => console.log('los links son los siguientes:', resolve))
-.catch((error)=>console.log(error))
-// mdLinks(path, {validate:true}).then((arrayLinks) => console.log(arrayLinks))
-// .catch((error) => console.error(error));
+// mdLinks(path)
+// .then((resolve) => console.log('los links son los siguientes:', resolve))
+// .catch((error)=>console.log(error))
+
 
 
 // console.log(`Existe la ruta? ${pathExists(path)}`);

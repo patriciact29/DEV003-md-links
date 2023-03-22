@@ -6,7 +6,7 @@ const path1 = process.argv[2];
 //C:/Users/Patricia/Documents/LABORATORIA/DEV003-md-links/README.md >> absoluta
 //README.md >> relativa
 //C:/Users/Patricia/Documents/LABORATORIA/DEV003-md-links/PRUEBA/READMEPRUEBA.md
-//PRUEBA/READMEPRUEBA.md
+//PRUEBA/READMEPRUEBA2.md
 
 // VERIFICAR SI EL PATH EXISTE
 const pathExists = (path1) => {
@@ -61,6 +61,21 @@ const readFiles = (path1) => new Promise((resolve, reject) => {
       resolve(data)
   })
 })
+//Leer todos los archivos dentro del directorio
+function readAllFiles(path, arrayOfFiles = []) {
+  const readFiles = fs.readdirSync(path) // read directory readFile
+  readFiles.forEach(file => {
+    const elements = path + nodePath.sep + file
+    const stats = fs.statSync(elements)
+    if (stats.isDirectory()) {
+      readAllFiles(elements, arrayOfFiles)
+    } else {
+      arrayOfFiles.push(elements)
+    }
+  }
+  )
+  return arrayOfFiles
+}
 
 //Leer archivo y extraer links
 const readFileAndExtractLinks = (path1) => new Promise((resolve, reject) => {
@@ -99,16 +114,24 @@ const getLinkStatus = (urls) => Promise.all(urls.map((link) => axios.get(link.hr
     };
   })
   .catch((error) => { // error
-    if (error.respuesta) { // La respuesta fue hecha y el servidor respondió con un código de estado
+    let errorStatus;
+    if (error.response) {
+      // La respuesta fue hecha y el servidor respondió con un código de estado
+      errorStatus = error.response.status;
+    } else if (error.request) {
+      errorStatus = 500;
+    } else {
+      errorStatus = 400;
+    }
     return {
       text: link.text,
       href: link.href,
       file: link.file,
-      status: error.respuesta.status,
+      status: errorStatus,
       message: 'fail'
     };
-     }
-  })));
+  }
+  )));
 // const probando = [
 //   {
 //     text: 'Tomando decisiones en tu código — condicionales - MDN',
@@ -137,6 +160,6 @@ const getLinkStatus = (urls) => Promise.all(urls.map((link) => axios.get(link.hr
 
 
 module.exports = {
-  pathExists, pathIsAbsolute, turnPathAbsolute, existeMd, isFile, readFileAndExtractLinks, getLinkStatus
+  pathExists, pathIsAbsolute, turnPathAbsolute, existeMd, isFile, readFileAndExtractLinks, getLinkStatus, readAllFiles
   // ...
 };
