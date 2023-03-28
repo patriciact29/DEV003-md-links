@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 const { mdLinks } = require('./index.js');
 const path = process.argv[2];
 //posicion 0 es node instalado

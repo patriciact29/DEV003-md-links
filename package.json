@@ -1,5 +1,5 @@
 {
-  "name": "md-links",
+  "name": "md-links-patriciact29",
   "version": "0.1.0",
   "engines": {
     "node": ">=16.x"
@@ -14,11 +14,40 @@
     "pretest": "npm run eslint",
     "test": "jest --verbose --coverage"
   },
+  "jest": {
+    "moduleNameMapper": {
+      "axios": "axios/dist/node/axios.cjs"
+    }
+  },
+  "bin": {
+    "md-links": "./cli.js"
+  },
   "dependencies": {
     "axios": "^1.3.4",
     "eslint": "^8.35.0"
   },
   "devDependencies": {
     "jest": "^27.0.1"
-  }
+  },
+  "description": "Es una libreria en JavaScrip que nos permitira leer los archivos `Markdown` para poder verificar el status de los links",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/patriciact29/DEV003-md-links.git"
+  },
+  "keywords": [
+    "node",
+    "javaScript",
+    "axios",
+    "npm."
+  ],
+  "author": "Patricia Cornelio",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/patriciact29/DEV003-md-links/issues"
+  },
+  "homepage": "https://github.com/patriciact29/DEV003-md-links#readme"
 }

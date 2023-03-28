@@ -1,8 +1,8 @@
 const path = require('path');
 const fs = require('fs');
 const axios = require('axios');
-//const { rejects } = require('assert');
 const path1 = process.argv[2];
+
 //C:/Users/Patricia/Documents/LABORATORIA/DEV003-md-links/README.md >> absoluta
 //README.md >> relativa
 //C:/Users/Patricia/Documents/LABORATORIA/DEV003-md-links/PRUEBA/READMEPRUEBA.md
@@ -24,21 +24,13 @@ const turnPathAbsolute = (path1) => {
   return path.resolve(path1);
 }
 
-//ES DIRECTORIO?
-const isDirectory = (path1) => {
-  const stats = fs.statSync(path1)
-  return stats.isDirectory(path1)
-}
-
 //HAY ARCHIVOS DENTRO DEL DIRECTORIO?
 const readDirectory = (path1) => {
   if (fs.readdirSync(path1).length > 0) {
     return true
-  } else {
-    return false
   }
-}
-// LEER TODOS LOS DIRECTORIOS
+  return false
+};
 
 //ES ARCHIVO?
 const isFile = (path1) => {
@@ -52,20 +44,12 @@ const existeMd = (path1) => {
   return extension === '.md'
 }
 
-// //Leer el archivo
-const readFiles = (path1) => new Promise((resolve, reject) => {
-  fs.readFile(path1, 'utf-8', (error, data) => {
-    if (error) {
-      reject(new Error('Error'));
-    } else
-      resolve(data)
-  })
-})
 //Leer todos los archivos dentro del directorio
-function readAllFiles(path, arrayOfFiles = []) {
-  const readFiles = fs.readdirSync(path) // read directory readFile
-  readFiles.forEach(file => {
-    const elements = path + nodePath.sep + file
+function readAllFiles(path1, arrayOfFiles = []) {
+  const readFiles = fs.readdirSync(path1) //
+  readFiles.forEach((file) => {
+    readFiles
+    const elements = path1 + path.sep + file //
     const stats = fs.statSync(elements)
     if (stats.isDirectory()) {
       readAllFiles(elements, arrayOfFiles)
@@ -76,6 +60,7 @@ function readAllFiles(path, arrayOfFiles = []) {
   )
   return arrayOfFiles
 }
+//console.log(readAllFiles(path1, arrayOfFiles = []));
 
 //Leer archivo y extraer links
 const readFileAndExtractLinks = (path1) => new Promise((resolve, reject) => {
@@ -116,7 +101,6 @@ const getLinkStatus = (urls) => Promise.all(urls.map((link) => axios.get(link.hr
   .catch((error) => { // error
     let errorStatus;
     if (error.response) {
-      // La respuesta fue hecha y el servidor respondió con un código de estado
       errorStatus = error.response.status;
     } else if (error.request) {
       errorStatus = 500;
@@ -160,6 +144,6 @@ const getLinkStatus = (urls) => Promise.all(urls.map((link) => axios.get(link.hr
 
 
 module.exports = {
-  pathExists, pathIsAbsolute, turnPathAbsolute, existeMd, isFile, readFileAndExtractLinks, getLinkStatus, readAllFiles
+  pathExists, pathIsAbsolute, turnPathAbsolute, isFile, readDirectory, existeMd, readFileAndExtractLinks, getLinkStatus, readAllFiles
   // ...
 };
