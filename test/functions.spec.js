@@ -109,7 +109,7 @@ test('Debe retornar los links', () => {
 });
 
 // test('Debe salir Error al tener un archivo vacio', () => {
-//   return expect(readFileAndExtractLinks('PRUEBA/CONARCHIVOS/prueba-sinLinks.md')).rejects.toBe('error');
+//   return expect(readFileAndExtractLinks('PRUEBA/CONARCHIVOS/prueba-sinLinks.md')).rejects.toBe("[Error: No se encontraron links en el archivo]");
 // });
 
 //Test para el status
@@ -121,7 +121,7 @@ describe('getLinkStatus',()=>{
       file: 'C:\\Users\\Patricia\\Documents\\LABORATORIA\\DEV003-md-links\\PRUEBA\\CONARCHIVOS\\Prueba.md'
     }];
     const resp = {status: 200, message: 'ok'};
-    axios.get.mockResolvedValue(resp);
+    axios.get.mockResolvedValueOnce(resp);
 
     // or you could use the following depending on your use case:
     // axios.get.mockImplementation(() => Promise.resolve(resp))
@@ -137,12 +137,13 @@ describe('getLinkStatus',()=>{
     ));
   });
   it('Deberia dar el status del link invalido', () => {
+    axios.get.mockClear();
     const urls = [{
       text: 'ESTO ES PRUEBA',
       href: 'https://prueba.noexiste.com',
       file: 'C:/Users/Patricia/Documents/LABORATORIA/DEV003-md-links/PRUEBA/READMEPRUEBA2.md'
     }];
-    const resp = {status: 500, message: 'fail'};
+    const resp = {status: 400, message: 'fail'};
     axios.get.mockImplementationOnce(() => Promise.reject(resp))
     return getLinkStatus(urls)
     .then(resp => expect(resp).toEqual(
@@ -150,7 +151,7 @@ describe('getLinkStatus',()=>{
         text: 'ESTO ES PRUEBA',
         href: 'https://prueba.noexiste.com',
         file: 'C:/Users/Patricia/Documents/LABORATORIA/DEV003-md-links/PRUEBA/READMEPRUEBA2.md',
-        status: 500,
+        status: 400,
         message: 'fail'
       }]
     ));
@@ -162,6 +163,7 @@ describe('getLinkStatus',()=>{
       file: 'PRUEBA/READMEPRUEBA2.md'
     }];
     const resp = {status: 400, message: 'fail'};
+    axios.get.mockClear();
     axios.get.mockImplementation(() => Promise.reject(resp))
     return getLinkStatus(urls)
     .catch(resp => expect(resp).toEqual(
