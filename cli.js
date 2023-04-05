@@ -22,11 +22,13 @@ const unique = (links) => {
   return `Unique: ${uniqueLinks.size} `
 }
 
+
 //FUNCION BROKEN
 const broken = (links) => {
   const messages = links.filter(link => link.message === 'fail');
   return `Broken: ${messages.length}`;
 }
+
 
 mdLinks(path, options)
   .then((resulLink) => {

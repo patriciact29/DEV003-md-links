@@ -70,16 +70,20 @@ const readFileAndExtractLinks = (path1) => new Promise((resolve, reject) => {
     } else {
       const regex = /\[([^\]]+)\]\((http[s]?:\/\/[^\)]+)\)/g;
       const matchedLinks = data.match(regex);
+      if(matchedLinks !== null) {
+        const links = matchedLinks.map(link => {
+          const linkParts = link.match(/\[([^\]]+)\]\((http[s]?:\/\/[^\)]+)\)/); // Se busca coincidencia y se crea un arreglo
+          return ({
+            text: linkParts[1],
+            href: linkParts[2],
+            file: path1
+          });
+        })
+        resolve(links);
+      }else {
+        reject(new Error('No se encontraron links en el archivo'));
+      }
       //console.log((matchedLinks));
-      const links = matchedLinks.map(link => {
-        const linkParts = link.match(/\[([^\]]+)\]\((http[s]?:\/\/[^\)]+)\)/); // Se busca coincidencia y se crea un arreglo
-        return ({
-          text: linkParts[1],
-          href: linkParts[2],
-          file: path1
-        });
-      })
-      resolve(links)
     }
   })
 })
