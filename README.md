@@ -46,16 +46,18 @@ Indica lo siguiente:
 md-links <path> --stats
 ```
 Indica lo siguiente:
-[Total]: Numero total de links
-[Unique]: Numero total links unicos
+
+* [Total]: Numero total de links
+* [Unique]: Numero total links unicos
 
 ```js
 md-links <path> --stats --validate
 ```
 Indica lo siguiente:
-[Total]: Numero total de links.
-[Unique]: Numero total links unicos.
-[Broken]: Numero total de links rots.
+
+* [Total]: Numero total de links.
+* [Unique]: Numero total links unicos.
+* [Broken]: Numero total de links rots.
 
 
 ## Diagrama de flujo
