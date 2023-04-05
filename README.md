@@ -3,15 +3,9 @@ Es una libreria en JavaScrip que nos permitira leer los archivos `Markdown` para
 ## Índice
 
 * [1. Preámbulo](#1-preámbulo)
-* [2. Resumen del proyecto](#2-resumen-del-proyecto)
-* [3. Objetivos de aprendizaje](#3-objetivos-de-aprendizaje)
-* [4. Consideraciones generales](#4-consideraciones-generales)
-* [5. Criterios de aceptación mínimos del proyecto](#5-criterios-de-aceptación-mínimos-del-proyecto)
-* [6. Entregables](#6-entregables)
-* [7. Hacker edition](#7-hacker-edition)
-* [8. Pistas, tips y lecturas complementarias](#8-pistas-tips-y-lecturas-complementarias)
-* [9. Checklist](#9-checklist)
-* [10. Achicando el problema](#10-achicando-el-problema)
+* [2. Instalaciòn](#2-instalaciòn)
+* [3. Comando CLI (Interfaz de Línea de Comando)](#3-comando-CLI)
+* [4. Diagrama de flujo](#4-Diagrama-deflujo)
 
 ***
 
@@ -60,4 +54,9 @@ Indica lo siguiente:
 * [Broken]: Numero total de links rots.
 
 
-## Diagrama de flujo
+## 4. Diagrama de flujo
+![Diagrama_de_flujo](https://user-images.githubusercontent.com/118831504/230196321-ff0cf0fe-695e-43e4-9abe-276e6b704e4e.jpg)
+
+Creado por:
+*Patricia Cornelio T.*
+[<img src='https://user-images.githubusercontent.com/118831504/229262127-d261522b-bb71-4a95-bb74-f8ef50570fb8.png' alt='linkedin' height='30'>](https://www.linkedin.com/in/patriciact29//)  [<img src='https://user-images.githubusercontent.com/118831504/229262989-79b14efa-1980-4325-a311-9cdf22bb5025.png' alt='gmail' height='30'>](mailto:patricia.ct29@gmail.com)
