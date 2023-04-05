@@ -58,5 +58,9 @@ Indica lo siguiente:
 ![Diagrama_de_flujo](https://user-images.githubusercontent.com/118831504/230196321-ff0cf0fe-695e-43e4-9abe-276e6b704e4e.jpg)
 
 Creado por:
+
 *Patricia Cornelio T.*
-[<img src='https://user-images.githubusercontent.com/118831504/229262127-d261522b-bb71-4a95-bb74-f8ef50570fb8.png' alt='linkedin' height='30'>](https://www.linkedin.com/in/patriciact29//)  [<img src='https://user-images.githubusercontent.com/118831504/229262989-79b14efa-1980-4325-a311-9cdf22bb5025.png' alt='gmail' height='30'>](mailto:patricia.ct29@gmail.com)
+
+[<img src='https://user-images.githubusercontent.com/118831504/229262127-d261522b-bb71-4a95-bb74-f8ef50570fb8.png' alt='linkedin' height='30'>](https://www.linkedin.com/in/patriciact29//)
+
+[<img src='https://user-images.githubusercontent.com/118831504/229262989-79b14efa-1980-4325-a311-9cdf22bb5025.png' alt='gmail' height='30'>](mailto:patricia.ct29@gmail.com)
